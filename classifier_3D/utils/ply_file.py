@@ -107,7 +107,7 @@ def read_ply(filename):
         # Get data
         data = np.fromfile(plyfile, dtype=properties, count=num_points)
 
-    return data
+    return data, [property[0] for property in properties]
 
 
 def header_properties(field_list, field_names):

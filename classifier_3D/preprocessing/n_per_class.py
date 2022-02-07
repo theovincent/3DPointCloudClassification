@@ -1,6 +1,6 @@
 import numpy as np
 
-from Classifier3D import LABEL_NAMES
+from classifier_3D import LABEL_NAMES
 
 
 def get_n_points_per_class(labels, number_per_class):
@@ -22,4 +22,4 @@ def get_n_points_per_class(labels, number_per_class):
             indexes.append(label_indexes[random_choice])
 
     # Gather chosen points
-    return np.hstack(*indexes)
+    return np.hstack(indexes)

@@ -3,8 +3,8 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
-from Classifier3D.utils.ply_file import read_ply
-from Classifier3D.features_extraction.extractor import compute_features
+from classifier_3D.utils.ply_file import read_ply
+from classifier_3D.features_extraction.extractor import compute_features
 
 from os import listdir
 from os.path import exists, join

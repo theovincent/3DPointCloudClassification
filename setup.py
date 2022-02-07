@@ -4,8 +4,14 @@ setup(
     name="3DPointCloudClassification",
     version="0.1",
     description="Classifies 3D points.",
-    packages=["Classifier3D"],
+    packages=["classifier_3D"],
     requires=["setuptools", "wheel"],
     install_requires=["numpy", "scikit-learn", "tqdm"],
     extras_require={"dev": ["black"]},
+    entry_points={
+        "console_scripts": [
+            "classify_features=classifier_3D.classify_features:classify_features_cli",
+            "compute_features=classifier_3D.feature_extraction.compute_features:compute_features_cli",
+        ],
+    },
 )

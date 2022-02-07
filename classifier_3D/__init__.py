@@ -9,3 +9,6 @@ LABEL_NAMES = {
 }
 
 NUMBER_TEST_POINTS = 3079187
+
+SUBMISSION_PATH = "submissions"
+DATA_PATH = "data"
