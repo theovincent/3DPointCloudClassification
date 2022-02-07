@@ -15,15 +15,15 @@ def classify_features_cli(argvs=sys.argv[1:]):
         "-trainf",
         "--train_files",
         nargs="+",
-        default=["MiniLille1.ply", "MiniLille2.ply", "MiniParis1.ply"],
-        help="List of train files, (default: ['MiniLille1.ply', 'MiniLille2.ply', 'MiniParis1.ply']).",
+        default=["MiniLille1_with_features.ply", "MiniLille2_with_features.ply", "MiniParis1_with_features.ply"],
+        help="List of train files, (default: ['MiniLille1_with_features.ply', 'MiniLille2_with_features.ply', 'MiniParis1_with_features.ply']).",
     )
     parser.add_argument(
         "-testf",
         "--test_file",
         type=str,
-        default="MiniDijon9.ply",
-        help="Test file, (default: 'MiniDijon9.ply').",
+        default="MiniDijon9_with_features.ply",
+        help="Test file, (default: 'MiniDijon9_with_features.ply').",
     )
     parser.add_argument(
         "-v",
@@ -105,7 +105,7 @@ def classify(args):
 
     train_features_list = []
     train_labels_list = []
-    test_features_list = []
+    test_features = None
 
     print("Load file and get the features")
     for file_path, is_train_data in args["data_files"].items():
@@ -126,15 +126,14 @@ def classify(args):
             train_features_list.append(features[chosen_indexes])
             train_labels_list.append(labels[chosen_indexes])
         else:
-            test_features_list.append(features[chosen_indexes])
+            test_features = features[chosen_indexes]
 
     train_features = np.vstack(train_features_list)
-    train_labels = np.vstack(train_labels_list)
-    test_features = np.vstack(test_features_list)
+    train_labels = np.hstack(train_labels_list)
 
     # Classify
-    print("Classify features")
-    classifier = RandomForestClassifier(n_jobs=2)
+    print(f"Classify features, training set composed of {len(train_labels)} points.")
+    classifier = RandomForestClassifier(n_jobs=4)
 
     classifier.fit(train_features, train_labels)
     predictions = classifier.predict(test_features)
@@ -148,8 +147,14 @@ def classify(args):
     if args["save_classification"]:
         for file_path, is_train_data in args["data_files"].items():
             if is_train_data:
-                cloud, headers = read_ply(file_path)
+                continue
 
-                structured_cloud = np.vstack([cloud[header] for header in headers]).T
+            cloud, headers = read_ply(file_path)
 
-                write_ply(file_path.replace(".ply", f"_{args['name_submission']}.ply"), [structured_cloud, predictions], headers + ["prediction"])
+            structured_cloud = np.vstack([cloud[header] for header in headers]).T
+
+            write_ply(
+                file_path.replace(".ply", f"_{args['name_submission']}.ply"),
+                [structured_cloud, predictions.astype(np.int32)],
+                headers + ["prediction"],
+            )
