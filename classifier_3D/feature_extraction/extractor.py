@@ -31,4 +31,4 @@ def get_features(query_points, cloud_points, radius_or_k_neighbors, use_radius=T
         features.append(all_eigenvalues[:, 0] / (all_eigenvalues[:, 2] + 1e-8))  # lambda_3 - lambda_1
         features_headers.append("sphericity")
 
-    return np.hstack(features), features_headers
+    return np.vstack(features).T, features_headers

@@ -101,5 +101,11 @@ def compute(args):
         points, points, args["radius_or_k_neighbors"], args["use_radius"], **args["features"]
     )
 
-    structured_cloud = np.vstack([cloud[header] for header in headers]).T
-    write_ply(args["file_path"], [structured_cloud, features], headers + features_headers)
+    structured_cloud = np.vstack([cloud[header] for header in headers if header not in features_headers]).T
+    pruned_headers = [header for header in headers if header not in features_headers]
+
+    write_ply(
+        args["file_path"].replace(".ply", "_with_features.ply"),
+        [structured_cloud, features],
+        pruned_headers + features_headers,
+    )

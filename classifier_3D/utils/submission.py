@@ -4,7 +4,6 @@ from classifier_3D import NUMBER_TEST_POINTS
 
 
 def save_prediction(path, predictions):
-    assert type(path) == str
     assert np.ndim(predictions) == 1
     assert predictions.shape[0] == NUMBER_TEST_POINTS
 

@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 import sys
 
 
@@ -255,3 +256,76 @@ def describe_element(name, df):
             element.append("property " + f + " " + df.columns.values[i])
 
     return element
+
+
+def split_ply(filename):
+    cloud, headers = read_ply(filename)
+
+    # Hand craft split for MiniParis1.ply
+    # cloud["y"] > cloud["y"].mean()
+
+    # Hand craft split for MiniParis1_split2.ply
+    # cloud["y"] > -2 * cloud["x"] + 20
+
+    # Hand craft split for MiniDijon9.ply
+    # cloud["y"] > 0.6 * cloud["x"] + 3
+
+    after_threshold = cloud["y"] > 0.6 * cloud["x"] + 3
+
+    structured_cloud_after_threshold = np.vstack([cloud[header][after_threshold] for header in headers]).T
+
+    structured_cloud_before_threshold = np.vstack([cloud[header][~after_threshold] for header in headers]).T
+
+    write_ply(filename.replace(".ply", "_split1.ply"), structured_cloud_after_threshold, headers)
+    write_ply(filename.replace(".ply", "_split2.ply"), structured_cloud_before_threshold, headers)
+
+
+def merge_ply(filename1, filename2):
+    cloud1, headers1 = read_ply(filename1)
+    cloud2, headers2 = read_ply(filename2)
+
+    assert headers1 == headers2, "Header has to be the same."
+
+    structured_cloud1 = np.vstack([cloud1[header] for header in headers1]).T
+    structured_cloud2 = np.vstack([cloud2[header] for header in headers2]).T
+
+    write_ply(filename1.replace("_split1", ""), np.vstack([structured_cloud1, structured_cloud2]), headers1)
+
+
+def merge_ply_with_order(filename1, filename2, filename_order, a, b):
+    """
+    Merge filename1 and filename2 in a file where the points are ordered the same way as filename_order.
+
+    a and b are the way the data has been split through the axes x and y.
+    """
+    cloud_order, headers = read_ply(filename_order)
+    cloud1, headers1 = read_ply(filename1)
+    cloud2, headers2 = read_ply(filename2)
+
+    assert headers[0] == "x" and headers[1] == "y" and headers[2] == "z", "Headers x, y, z have to be the first ones"
+    assert headers1[0] == "x" and headers1[1] == "y" and headers1[2] == "z", "Headers x, y, z have to be the first ones"
+    assert headers1 == headers2, "Header has to be the same."
+    assert all(cloud1["y"] > a * cloud1["x"] + b), "The values for a and b are not correct"
+    assert all(cloud2["y"] <= a * cloud2["x"] + b), "The values for a and b are not correct"
+
+    cloud_split1 = np.vstack([cloud1[header] for header in headers1]).T
+    cloud_split2 = np.vstack([cloud2[header] for header in headers2]).T
+
+    full_split = np.vstack([cloud_split1, cloud_split2])
+
+    in_split1 = cloud_order["y"] > a * cloud_order["x"] + b
+
+    mapping_from_split_to_order = []
+    n_point1_visited = 0
+    n_point2_visited = 0
+    n_point1 = cloud_split1.shape[0]
+
+    for is_in_cloud1 in in_split1:
+        if is_in_cloud1:
+            mapping_from_split_to_order.append(n_point1_visited)
+            n_point1_visited += 1
+        else:
+            mapping_from_split_to_order.append(n_point2_visited + n_point1)
+            n_point2_visited += 1
+
+    write_ply(filename1.replace("_split1", ""), full_split[mapping_from_split_to_order], headers1)

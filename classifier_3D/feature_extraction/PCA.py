@@ -14,14 +14,20 @@ def PCA(points):
     return eigenvalues, eigenvectors
 
 
-def compute_local_PCA(query_points, cloud_points, radius_or_k_neighbors, use_radius):
+def compute_index_neighbors(query_points, cloud_points, radius_or_k_neighbors, use_radius):
     # This function needs to compute PCA on the neighborhoods of all query_points in cloud_points
-    kd_tree = KDTree(cloud_points, leaf_size=4, metric="euclidean")
+    kd_tree = KDTree(cloud_points, leaf_size=cloud_points.shape[0] // 1000, metric="euclidean")
 
     if use_radius:
         idx_neighbors_queries = kd_tree.query_radius(query_points, radius_or_k_neighbors)
     else:
         idx_neighbors_queries = kd_tree.query(query_points, k=radius_or_k_neighbors, return_distance=False)
+
+    return idx_neighbors_queries
+
+
+def compute_local_PCA(query_points, cloud_points, radius_or_k_neighbors, use_radius):
+    idx_neighbors_queries = compute_index_neighbors(query_points, cloud_points, radius_or_k_neighbors, use_radius)
 
     all_eigenvalues = np.zeros((query_points.shape[0], 3))
     all_eigenvectors = np.zeros((query_points.shape[0], 3, 3))
