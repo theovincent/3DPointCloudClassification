@@ -54,6 +54,27 @@ def classify_features_cli(argvs=sys.argv[1:]):
         help="if given, sphericity will be used for classification, (default: False).",
     )
     parser.add_argument(
+        "-x",
+        "--x_coordinate",
+        default=False,
+        action="store_true",
+        help="if given, the x coordinate will be used for classification, (default: False).",
+    )
+    parser.add_argument(
+        "-y",
+        "--y_coordinate",
+        default=False,
+        action="store_true",
+        help="if given, the y coordinate will be used for classification, (default: False).",
+    )
+    parser.add_argument(
+        "-z",
+        "--z_coordinate",
+        default=False,
+        action="store_true",
+        help="if given, the z coordinate will be used for classification, (default: False).",
+    )
+    parser.add_argument(
         "-npc",
         "--number_per_class",
         type=int,

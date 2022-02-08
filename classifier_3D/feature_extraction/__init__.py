@@ -1,1 +1,1 @@
-ALL_FEATURES = ["verticality", "linearity", "planarity", "sphericity"]
+ALL_FEATURES = ["verticality", "linearity", "planarity", "sphericity", "x", "y", "z"]

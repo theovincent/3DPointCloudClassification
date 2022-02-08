@@ -68,6 +68,8 @@ def compute_features_cli(argvs=sys.argv[1:]):
 
     args["features"] = {}
     for feature in ALL_FEATURES:
+        if feature in ["x", "y", "z"]:
+            continue
         args["features"][feature] = args[feature]
 
     assert not (
