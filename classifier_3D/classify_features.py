@@ -154,7 +154,16 @@ def classify(args):
 
     # Classify
     print(f"Classify features, training set composed of {len(train_labels)} points.")
-    classifier = RandomForestClassifier(n_jobs=4)
+    classifier = RandomForestClassifier(
+        n_estimators=100,
+        criterion="entropy",
+        min_samples_split=50,
+        min_samples_leaf=20,
+        bootstrap=True,
+        n_jobs=4,
+        class_weight="balanced_subsample",
+        max_samples=0.4,
+    )
 
     classifier.fit(train_features, train_labels)
     predictions = classifier.predict(test_features)
