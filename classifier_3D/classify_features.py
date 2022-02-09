@@ -173,9 +173,6 @@ def classify(args):
     classifier.fit(train_features, train_labels)
     predictions = classifier.predict(test_features)
 
-    # Regularize
-    # Not implemented
-
     # Save submission file
     save_prediction(args["path_submission"], predictions)
 
