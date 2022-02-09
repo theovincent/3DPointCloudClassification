@@ -6,7 +6,7 @@ setup(
     description="Classifies 3D points.",
     packages=["classifier_3D"],
     requires=["setuptools", "wheel"],
-    install_requires=["numpy", "scikit-learn", "tqdm"],
+    install_requires=["numpy", "scikit-learn", "tqdm", "pandas"],
     extras_require={"dev": ["black"]},
     entry_points={
         "console_scripts": [
