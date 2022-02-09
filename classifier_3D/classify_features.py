@@ -1,6 +1,7 @@
 import sys
 
 import numpy as np
+import pandas as pd
 
 
 def classify_features_cli(argvs=sys.argv[1:]):
@@ -55,21 +56,21 @@ def classify_features_cli(argvs=sys.argv[1:]):
     )
     parser.add_argument(
         "-x",
-        "--x_coordinate",
+        "--x",
         default=False,
         action="store_true",
         help="if given, the x coordinate will be used for classification, (default: False).",
     )
     parser.add_argument(
         "-y",
-        "--y_coordinate",
+        "--y",
         default=False,
         action="store_true",
         help="if given, the y coordinate will be used for classification, (default: False).",
     )
     parser.add_argument(
         "-z",
-        "--z_coordinate",
+        "--z",
         default=False,
         action="store_true",
         help="if given, the z coordinate will be used for classification, (default: False).",
@@ -123,6 +124,10 @@ def classify(args):
     from classifier_3D.utils.ply_file import read_ply, write_ply
     from classifier_3D.preprocessing.n_per_class import get_n_points_per_class
     from classifier_3D.utils.submission import save_prediction
+    from classifier_3D.metric.confusion_matrix import get_confusion_matrix
+    from classifier_3D.metric.IoU import get_IoU
+
+    from classifier_3D import LABEL_NAMES
 
     train_features_list = []
     train_labels_list = []
@@ -157,7 +162,7 @@ def classify(args):
     classifier = RandomForestClassifier(
         n_estimators=100,
         criterion="entropy",
-        min_samples_split=50,
+        min_samples_split=100,
         min_samples_leaf=20,
         bootstrap=True,
         n_jobs=4,
@@ -174,17 +179,37 @@ def classify(args):
     # Save submission file
     save_prediction(args["path_submission"], predictions)
 
-    if args["save_classification"]:
-        for file_path, is_train_data in args["data_files"].items():
-            if is_train_data:
-                continue
+    for file_path, is_train_data in args["data_files"].items():
+        if is_train_data:
+            continue
 
-            cloud, headers = read_ply(file_path)
+        cloud, headers = read_ply(file_path)
 
-            structured_cloud = np.vstack([cloud[header] for header in headers]).T
+        structured_cloud = np.vstack([cloud[header] for header in headers]).T
 
+        if args["save_classification"]:
             write_ply(
                 file_path.replace(".ply", f"_{args['name_submission']}.ply"),
                 [structured_cloud, predictions.astype(np.int32)],
                 headers + ["prediction"],
             )
+
+        # Check if we can compute the confusion matrix
+        if "class" in headers:
+            confusion_matrix = get_confusion_matrix(predictions, cloud["class"])
+
+            print("\n\n\n")
+            print(f"The confusion matrix for {file_path} is:")
+            print(
+                pd.DataFrame(
+                    data=confusion_matrix, columns=list(LABEL_NAMES.values())[1:], index=list(LABEL_NAMES.values())[1:]
+                )
+            )
+
+            IoUs = []
+            for label in list(LABEL_NAMES.keys())[1:]:
+                IoUs.append(get_IoU(confusion_matrix, label))
+
+            print("\nThe IoUs are:")
+            print(pd.Series(data=IoUs, index=list(LABEL_NAMES.values())[1:]))
+            print(f"Average IoU: {np.around(np.mean(IoUs), 3)}")
