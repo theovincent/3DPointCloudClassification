@@ -75,7 +75,7 @@ def filter(args):
     # Loading file
     cloud, headers = read_ply(args["file_path"])
 
-    points = np.vstack((cloud["x"], cloud["y"], cloud["z"])).T
+    points = np.vstack((cloud["x"], cloud["y"], cloud["z"])).T.astype(np.float32)
     labels = cloud["prediction"]
 
     # Filter
