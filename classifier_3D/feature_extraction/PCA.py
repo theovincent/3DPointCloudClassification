@@ -1,5 +1,4 @@
 from tqdm import tqdm
-from sklearn.neighbors import KDTree
 
 import numpy as np
 
@@ -14,19 +13,9 @@ def PCA(points):
     return eigenvalues, eigenvectors
 
 
-def compute_index_neighbors(query_points, cloud_points, radius_or_k_neighbors, use_radius):
-    # This function needs to compute PCA on the neighborhoods of all query_points in cloud_points
-    kd_tree = KDTree(cloud_points, leaf_size=cloud_points.shape[0] // 1000, metric="euclidean")
-
-    if use_radius:
-        idx_neighbors_queries = kd_tree.query_radius(query_points, radius_or_k_neighbors)
-    else:
-        idx_neighbors_queries = kd_tree.query(query_points, k=radius_or_k_neighbors, return_distance=False)
-
-    return idx_neighbors_queries
-
-
 def compute_local_PCA(query_points, cloud_points, radius_or_k_neighbors, use_radius):
+    from classifier_3D.utils.neighbors import compute_index_neighbors
+
     idx_neighbors_queries = compute_index_neighbors(query_points, cloud_points, radius_or_k_neighbors, use_radius)
 
     all_eigenvalues = np.zeros((query_points.shape[0], 3))

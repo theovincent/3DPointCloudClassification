@@ -8,7 +8,5 @@ LABEL_NAMES = {
     6: "Vegetation",
 }
 
-NUMBER_TEST_POINTS = 3079187
-
 SUBMISSION_PATH = "submissions"
 DATA_PATH = "data"
