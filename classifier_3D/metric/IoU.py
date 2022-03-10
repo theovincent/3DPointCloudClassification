@@ -1,5 +1,7 @@
 def get_IoU(confusion_matrix, label):
-    assert label > 0 and label < 7, f"The given label {label} has to be between 1 and 6."
+    assert (
+        label > 0 and label < 7
+    ), f"The given label {label} has to be between 1 and 6."
 
     if confusion_matrix[label - 1, :].sum() == 0:
         return None

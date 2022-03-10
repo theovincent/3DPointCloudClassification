@@ -11,12 +11,18 @@ def classify_features_cli(argvs=sys.argv[1:]):
 
     from classifier_3D.feature_extraction import ALL_FEATURES
 
-    parser = argparse.ArgumentParser("Pipeline to classify the 3D points by computing features")
+    parser = argparse.ArgumentParser(
+        "Pipeline to classify the 3D points by computing features"
+    )
     parser.add_argument(
         "-trainf",
         "--train_files",
         nargs="+",
-        default=["MiniLille1_with_features.ply", "MiniLille2_with_features.ply", "MiniParis1_with_features.ply"],
+        default=[
+            "MiniLille1_with_features.ply",
+            "MiniLille2_with_features.ply",
+            "MiniParis1_with_features.ply",
+        ],
         help="List of train files, (default: ['MiniLille1_with_features.ply', 'MiniLille2_with_features.ply', 'MiniParis1_with_features.ply']).",
     )
     parser.add_argument(
@@ -199,7 +205,9 @@ def classify(args):
             print(f"The confusion matrix for {file_path} is:")
             print(
                 pd.DataFrame(
-                    data=confusion_matrix, columns=list(LABEL_NAMES.values())[1:], index=list(LABEL_NAMES.values())[1:]
+                    data=confusion_matrix,
+                    columns=list(LABEL_NAMES.values())[1:],
+                    index=list(LABEL_NAMES.values())[1:],
                 )
             )
 

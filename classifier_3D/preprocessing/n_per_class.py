@@ -18,7 +18,9 @@ def get_n_points_per_class(labels, number_per_class):
         if len(label_indexes) <= number_per_class:
             indexes.append(label_indexes)
         else:
-            random_choice = np.random.choice(len(label_indexes), number_per_class, replace=False)
+            random_choice = np.random.choice(
+                len(label_indexes), number_per_class, replace=False
+            )
             indexes.append(label_indexes[random_choice])
 
     # Gather chosen points

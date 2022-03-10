@@ -11,7 +11,12 @@ def compute_features_cli(argvs=sys.argv[1:]):
     from classifier_3D.feature_extraction import ALL_FEATURES
 
     parser = argparse.ArgumentParser("Pipeline to compute features on 3D points")
-    parser.add_argument("-f", "--file", required=True, help="File on which to compute the features, (required).")
+    parser.add_argument(
+        "-f",
+        "--file",
+        required=True,
+        help="File on which to compute the features, (required).",
+    )
     parser.add_argument(
         "-itd",
         "--is_train_data",
@@ -100,10 +105,16 @@ def compute(args):
 
     # Feature extraction
     features, features_headers = get_features(
-        points, points, args["radius_or_k_neighbors"], args["use_radius"], **args["features"]
+        points,
+        points,
+        args["radius_or_k_neighbors"],
+        args["use_radius"],
+        **args["features"]
     )
 
-    structured_cloud = np.vstack([cloud[header] for header in headers if header not in features_headers]).T
+    structured_cloud = np.vstack(
+        [cloud[header] for header in headers if header not in features_headers]
+    ).T
     pruned_headers = [header for header in headers if header not in features_headers]
 
     write_ply(

@@ -162,7 +162,11 @@ def write_ply(filename, field_list, field_names):
     """
 
     # Format list input to the right form
-    field_list = list(field_list) if (type(field_list) == list or type(field_list) == tuple) else list((field_list,))
+    field_list = (
+        list(field_list)
+        if (type(field_list) == list or type(field_list) == tuple)
+        else list((field_list,))
+    )
     for i, field in enumerate(field_list):
         if field is None:
             print("WRITE_PLY ERROR: a field is None")
@@ -271,12 +275,24 @@ def split_ply(filename):
 
     after_threshold = cloud["y"] > 0.6 * cloud["x"] + 3
 
-    structured_cloud_after_threshold = np.vstack([cloud[header][after_threshold] for header in headers]).T
+    structured_cloud_after_threshold = np.vstack(
+        [cloud[header][after_threshold] for header in headers]
+    ).T
 
-    structured_cloud_before_threshold = np.vstack([cloud[header][~after_threshold] for header in headers]).T
+    structured_cloud_before_threshold = np.vstack(
+        [cloud[header][~after_threshold] for header in headers]
+    ).T
 
-    write_ply(filename.replace(".ply", "_split1.ply"), structured_cloud_after_threshold, headers)
-    write_ply(filename.replace(".ply", "_split2.ply"), structured_cloud_before_threshold, headers)
+    write_ply(
+        filename.replace(".ply", "_split1.ply"),
+        structured_cloud_after_threshold,
+        headers,
+    )
+    write_ply(
+        filename.replace(".ply", "_split2.ply"),
+        structured_cloud_before_threshold,
+        headers,
+    )
 
 
 def merge_ply(filename1, filename2):
@@ -288,7 +304,11 @@ def merge_ply(filename1, filename2):
     structured_cloud1 = np.vstack([cloud1[header] for header in headers1]).T
     structured_cloud2 = np.vstack([cloud2[header] for header in headers2]).T
 
-    write_ply(filename1.replace("_split1", ""), np.vstack([structured_cloud1, structured_cloud2]), headers1)
+    write_ply(
+        filename1.replace("_split1", ""),
+        np.vstack([structured_cloud1, structured_cloud2]),
+        headers1,
+    )
 
 
 def merge_ply_with_order(filename1, filename2, filename_order, a, b):
@@ -301,11 +321,19 @@ def merge_ply_with_order(filename1, filename2, filename_order, a, b):
     cloud1, headers1 = read_ply(filename1)
     cloud2, headers2 = read_ply(filename2)
 
-    assert headers[0] == "x" and headers[1] == "y" and headers[2] == "z", "Headers x, y, z have to be the first ones"
-    assert headers1[0] == "x" and headers1[1] == "y" and headers1[2] == "z", "Headers x, y, z have to be the first ones"
+    assert (
+        headers[0] == "x" and headers[1] == "y" and headers[2] == "z"
+    ), "Headers x, y, z have to be the first ones"
+    assert (
+        headers1[0] == "x" and headers1[1] == "y" and headers1[2] == "z"
+    ), "Headers x, y, z have to be the first ones"
     assert headers1 == headers2, "Header has to be the same."
-    assert all(cloud1["y"] > a * cloud1["x"] + b), "The values for a and b are not correct"
-    assert all(cloud2["y"] <= a * cloud2["x"] + b), "The values for a and b are not correct"
+    assert all(
+        cloud1["y"] > a * cloud1["x"] + b
+    ), "The values for a and b are not correct"
+    assert all(
+        cloud2["y"] <= a * cloud2["x"] + b
+    ), "The values for a and b are not correct"
 
     cloud_split1 = np.vstack([cloud1[header] for header in headers1]).T
     cloud_split2 = np.vstack([cloud2[header] for header in headers2]).T
@@ -327,4 +355,8 @@ def merge_ply_with_order(filename1, filename2, filename_order, a, b):
             mapping_from_split_to_order.append(n_point2_visited + n_point1)
             n_point2_visited += 1
 
-    write_ply(filename1.replace("_split1", ""), full_split[mapping_from_split_to_order], headers1)
+    write_ply(
+        filename1.replace("_split1", ""),
+        full_split[mapping_from_split_to_order],
+        headers1,
+    )

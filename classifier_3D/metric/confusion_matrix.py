@@ -13,6 +13,8 @@ def get_confusion_matrix(predictions, labels):
         for idx_true_label, true_label in enumerate(list(LABEL_NAMES.keys())[1:]):
             true_label_index = labels == true_label
 
-            confusion[idx_true_label, idx_predicted_label] = (predicted_label_index & true_label_index).sum()
+            confusion[idx_true_label, idx_predicted_label] = (
+                predicted_label_index & true_label_index
+            ).sum()
 
     return confusion
