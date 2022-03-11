@@ -11,3 +11,14 @@ CENTERS = {
         dtype=np.float32,
     )
 }
+
+
+ROTATIONS = {
+    "MiniLille1": 0.6877497
+}
+
+
+Z_GROUNDS = {
+    "MiniLille1": -2.774031,
+    "kitti": -1.700172
+}
