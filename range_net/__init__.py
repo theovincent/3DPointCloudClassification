@@ -9,23 +9,82 @@ CENTERS = {
             [30.010391, 24.857819],
         ],
         dtype=np.float32,
+    ),
+    "MiniLille2_split1": np.array(
+        [
+            [5.730957, 5.312561],
+            [9.944702, 3.635559],
+            [27.381958, 42.80591],
+            [23.06903, 44.494507],
+        ],
+        dtype=np.float32,
+    ),
+    "MiniLille2_split2": np.array(
+        [
+            [-11.270386, -52.056335],
+            [-7.2437744, -53.21167],
+            [2.3392334, -16.881104],
+            [-1.8076172, -16.075562],
+        ],
+        dtype=np.float32,
+    ),
+    "MiniParis1_split1": np.array(
+        [[-13.398174 ,  32.048706 ],
+       [  8.890404 ,  -3.3701782],
+       [ 11.532715 ,  -1.3626099],
+       [ -8.367008 ,  34.48767  ]],
+        dtype=np.float32,
+    ),
+    "MiniParis1_split2": np.array(
+       [[-10.885216 ,  66.33209  ],
+       [ -5.750868 ,  65.864624 ],
+       [ -3.6149998,  90.34259  ],
+       [ -9.076685 ,  90.780945 ]],
+        dtype=np.float32,
     )
 }
 
-
-ROTATIONS = {"MiniLille1": 0.6877497}
-
-
 Z_GROUNDS = {
     "MiniLille1": -2.774031,
+    "MiniLille2_split1": -2.591594,
+    "MiniLille2_split2": -3.23685,
+    "MiniParis1_split1": -5.165518,
+    "MiniParis1_split2": -6.5578775,
+}
+
+ROTATIONS = {
+    "MiniLille1": 0.6877497,
+    "MiniLille2_split1": 1.1541955,
+    "MiniLille2_split2": 1.3136249,
+    "MiniParis1_split1": 2.132471,
+    "MiniParis1_split2": 1.4969587,
 }
 
 Z_GROUND = -1.703319
 MAX_DISTANCE = 48.8722
 MAX_HEIGHT = 1.8629856
-MIN_DISTANCE = 3.6060606
+MIN_DISTANCE = 2.090909
 N_POINTS = 122261
+BINS = np.logspace(
+    np.log(MIN_DISTANCE) / np.log(10), np.log(MAX_DISTANCE) / np.log(10), 10
+)
+N_PER_BINS = np.array(
+    [6159, 6883, 20252, 24437, 16630, 15982, 14253, 10516, 7144], dtype=np.int32
+)
 
+# For the paths
+PATH_RANGE_NET = "/home/theovincent/MVA/3DPointCloud/RangeNet++/lidar-bonnetal/train/tasks/semantic/data_city/sequences/FOLDER/velodyne"
+CITY_INFERANCE_FOLDER = {
+    "MiniLille1": "00",
+    "MiniLille2_split1": "01",
+    "MiniLille2_split2": "02",
+    "MiniParis1_split1": "03",
+    "MiniParis1_split2": "04",
+}
+PATH_INDEXES_TO_KEEP = "data/indexes_to_keep"
+PATH_SAMPLES = "data/samples/"
+
+# For the labels
 KITTI_NUMBERS_TO_LABELS = {
     0: "unlabeled",
     1: "outlier",
@@ -116,4 +175,9 @@ CITY_LABELS_TO_NUMBERS = {v: k for k, v in CITY_NUMBERS_TO_LABELS.items()}
 KITTI_TO_CITY_NUMBERS = {}
 
 for kitti_label, city_label in KITTI_TO_CITY_LABELS.items():
-    KITTI_TO_CITY_NUMBERS[KITTI_LABELS_TO_NUMBERS[kitti_label]] = CITY_LABELS_TO_NUMBERS[city_label]
+    KITTI_TO_CITY_NUMBERS[
+        KITTI_LABELS_TO_NUMBERS[kitti_label]
+    ] = CITY_LABELS_TO_NUMBERS[city_label]
+
+# The dict is not injective, take opposite listing to have the lowest numbers
+CITY_TO_KITTI_NUMBERS = {v: k for k, v in list(KITTI_TO_CITY_NUMBERS.items())[::-1]}
