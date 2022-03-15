@@ -1,0 +1,29 @@
+Lr: 9.510e-03 | Update: 4.588e-05 mean,3.728e-05 std | Epoch: [5][624/625] | Time 1.153 (1.150) | Data 0.226 (0.222) | Loss 0.0328 (0.0369) | acc 0.980 (0.980) | IoU 0.263 (0.259)
+Best mean iou in training set so far, save model!
+********************************************************************************
+Validation set:
+Time avg per batch 0.942
+Loss avg 0.0403
+Acc avg 0.949
+IoU avg 0.254
+IoU class 0 [unlabeled] = 0.000
+IoU class 1 [car] = 0.978
+IoU class 2 [bicycle] = 0.000
+IoU class 3 [motorcycle] = 0.000
+IoU class 4 [truck] = 0.000
+IoU class 5 [other-vehicle] = 0.000
+IoU class 6 [person] = 0.633
+IoU class 7 [bicyclist] = 0.000
+IoU class 8 [motorcyclist] = 0.000
+IoU class 9 [road] = 0.956
+IoU class 10 [parking] = 0.000
+IoU class 11 [sidewalk] = 0.000
+IoU class 12 [other-ground] = 0.000
+IoU class 13 [building] = 0.859
+IoU class 14 [fence] = 0.000
+IoU class 15 [vegetation] = 0.851
+IoU class 16 [trunk] = 0.000
+IoU class 17 [terrain] = 0.000
+IoU class 18 [pole] = 0.557
+IoU class 19 [traffic-sign] = 0.000
+Best mean iou in validation so far, save model!
