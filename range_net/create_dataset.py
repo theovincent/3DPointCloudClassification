@@ -11,7 +11,6 @@ def create_dataset_cli(argvs=sys.argv[1:]):
     from classifier_3D.utils.ply_file import read_ply, write_ply
 
     from range_net import (
-        PATH_RANGE_NET,
         CITY_INFERANCE_FOLDER,
         PATH_INDEXES_TO_KEEP,
         PATH_SAMPLES,
@@ -43,6 +42,13 @@ def create_dataset_cli(argvs=sys.argv[1:]):
         help="The number of samples to draw, (default: 10).",
     )
     parser.add_argument(
+        "-pts",
+        "--path_to_store",
+        type=str,
+        default="/home/theovincent/MVA/3DPointCloud/RangeNet++/lidar-bonnetal/train/tasks/semantic/data_city/sequences/FOLDER/velodyne",
+        help="Path where to store the .bins and the .labels file, (default: /home/theovincent/MVA/3DPointCloud/RangeNet++/lidar-bonnetal/train/tasks/semantic/data_city/sequences/FOLDER/velodyne).",
+    )
+    parser.add_argument(
         "-si",
         "--store_indexes",
         default=False,
@@ -62,7 +68,7 @@ def create_dataset_cli(argvs=sys.argv[1:]):
 
     # Clean paths
     path_folder_range_net_bins = (
-        f"{PATH_RANGE_NET.replace('FOLDER', CITY_INFERANCE_FOLDER[args['file']])}"
+        f"{args['path_to_store'].replace('FOLDER', CITY_INFERANCE_FOLDER[args['file']])}"
     )
     if not os.path.exists(path_folder_range_net_bins):
         os.makedirs(path_folder_range_net_bins)

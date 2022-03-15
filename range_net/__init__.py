@@ -73,7 +73,6 @@ N_PER_BINS = np.array(
 )
 
 # For the paths
-PATH_RANGE_NET = "/home/theovincent/MVA/3DPointCloud/RangeNet++/lidar-bonnetal/train/tasks/semantic/data_city/sequences/FOLDER/velodyne"
 CITY_INFERANCE_FOLDER = {
     "MiniLille1": "00",
     "MiniLille2_split1": "01",
