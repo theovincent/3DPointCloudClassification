@@ -10,3 +10,19 @@ You need to have a point cloud with the three coordinates x, y, z and the vertic
 6. To use `RangeNet++` afterwards, you need to update the dictionnary `CITY_INFERANCE_FOLDER` and the path `PATH_RANGE_NET` in the [init](./__init__.py) file. 
 
 You can now freely generate new samples from the point cloud that you have. For that, you need to use the command line `create_dataset`. If by any chance the pipeline gets broken, a notebook called [create_dataset](./create_dataset.ipynb) has been made to help debugging. 
+
+
+## How to train RangeNet++
+
+You can open the Jupyter Notebook directly in colab by clicking here:
+<a href="https://colab.research.google.com/github/theovincent/3DPointCloudClassification/blob/rangenet/range_net/RangeNet%2B%2B.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+The step are explained in the notebook. You need to upload your data into the Colab session. The way it is done here is by using Google Drive.
+
+For further details, please go and check the [documentation](https://github.com/PRBonn/lidar-bonnetal) of RangeNet++.
+
+
+## How to infer and merge the predictions
+
+1. First generate the predictions with the weights that you have trained from the [previous section](#how-to-train-rangenet).
+2. Merge the predictions by using the command line `merge_labels`.

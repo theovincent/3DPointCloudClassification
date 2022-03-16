@@ -67,9 +67,7 @@ def create_dataset_cli(argvs=sys.argv[1:]):
     print(args)
 
     # Clean paths
-    path_folder_range_net_bins = (
-        f"{args['path_to_store'].replace('FOLDER', CITY_INFERANCE_FOLDER[args['file']])}"
-    )
+    path_folder_range_net_bins = f"{args['path_to_store'].replace('FOLDER', CITY_INFERANCE_FOLDER[args['file']])}"
     if not os.path.exists(path_folder_range_net_bins):
         os.makedirs(path_folder_range_net_bins)
     else:
@@ -92,7 +90,9 @@ def create_dataset_cli(argvs=sys.argv[1:]):
         ]
 
     if args["store_indexes"]:
-        path_store_indexes = f"{PATH_INDEXES_TO_KEEP}/{CITY_INFERANCE_FOLDER[args['file']]}"
+        path_store_indexes = (
+            f"{PATH_INDEXES_TO_KEEP}/{CITY_INFERANCE_FOLDER[args['file']]}"
+        )
         if not os.path.exists(path_store_indexes):
             os.mkdir(path_store_indexes)
         else:
