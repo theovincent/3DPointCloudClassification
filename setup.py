@@ -14,6 +14,7 @@ setup(
             "compute_features=classifier_3D.feature_extraction.compute_features:compute_features_cli",
             "filter_predictions=classifier_3D.filter_predictions:filter_predictions_cli",
             "create_dataset=range_net.create_dataset:create_dataset_cli",
+            "merge_labels=range_net.merge_labels:merge_labels_cli"
         ],
     },
 )
