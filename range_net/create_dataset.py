@@ -94,7 +94,7 @@ def create_dataset_cli(argvs=sys.argv[1:]):
             f"{PATH_INDEXES_TO_KEEP}/{CITY_INFERANCE_FOLDER[args['file']]}"
         )
         if not os.path.exists(path_store_indexes):
-            os.mkdir(path_store_indexes)
+            os.makedirs(path_store_indexes)
         else:
             [
                 os.remove(f"{path_store_indexes}/{f}")
@@ -105,7 +105,7 @@ def create_dataset_cli(argvs=sys.argv[1:]):
     if args["store_ply"]:
         path_store_ply = f"{PATH_SAMPLES}/{args['file']}"
         if not os.path.exists(path_store_ply):
-            os.mkdir(path_store_ply)
+            os.makedirs(path_store_ply)
         else:
             [
                 os.remove(f"{path_store_ply}/{f}")
