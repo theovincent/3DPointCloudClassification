@@ -24,5 +24,6 @@ For further details, please go and check the [documentation](https://github.com/
 
 ## How to infer and merge the predictions
 
-1. First generate the predictions with the weights that you have trained from the [previous section](#how-to-train-rangenet).
-2. Merge the predictions by using the command line `merge_labels`.
+1. First generate the samples you would like to predict on by using the command line `create_dataset`.
+2. Then generate the predictions with the weights that you have trained from the [previous section](#how-to-train-rangenet).
+3. Merge the predictions by using the command line `merge_labels`.
