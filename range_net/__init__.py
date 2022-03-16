@@ -46,6 +46,15 @@ CENTERS = {
         ],
         dtype=np.float32,
     ),
+    "MiniDijon9": np.array(
+        [
+            [-52.935486, -22.587769],
+            [-49.467407, -28.431564],
+            [31.811981, 15.159637],
+            [29.539429, 19.625504],
+        ],
+        dtype=np.float32,
+    ),
 }
 
 Z_GROUNDS = {
@@ -54,6 +63,7 @@ Z_GROUNDS = {
     "MiniLille2_split2": -3.23685,
     "MiniParis1_split1": -5.165518,
     "MiniParis1_split2": -6.5578775,
+    "MiniDijon9": -4.729243,
 }
 
 ROTATIONS = {
@@ -62,6 +72,7 @@ ROTATIONS = {
     "MiniLille2_split2": 1.3136249,
     "MiniParis1_split1": 2.132471,
     "MiniParis1_split2": 1.4969587,
+    "MiniDijon9": 0.4730679,
 }
 
 Z_GROUND = -1.703319
@@ -83,6 +94,7 @@ CITY_INFERANCE_FOLDER = {
     "MiniLille2_split2": "02",
     "MiniParis1_split1": "03",
     "MiniParis1_split2": "04",
+    "MiniDijon9": "11",
 }
 PATH_INDEXES_TO_KEEP = "data/indexes_to_keep"
 PATH_SAMPLES = "data/samples/"

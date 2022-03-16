@@ -158,11 +158,18 @@ def create_dataset_cli(argvs=sys.argv[1:]):
             )
 
         if args["store_ply"]:
-            write_ply(
-                f"{path_store_ply}/{str(n_sample).zfill(3)}.ply",
-                (points_with_verticality, labels[indexes_to_keep].astype(np.int32)),
-                ["x", "y", "z", "verticality", "class"],
-            )
+            if args["is_train_data"]:
+                write_ply(
+                    f"{path_store_ply}/{str(n_sample).zfill(3)}.ply",
+                    (points_with_verticality, labels[indexes_to_keep].astype(np.int32)),
+                    ["x", "y", "z", "verticality", "class"],
+                )
+            else:
+                write_ply(
+                    f"{path_store_ply}/{str(n_sample).zfill(3)}.ply",
+                    points_with_verticality,
+                    ["x", "y", "z", "verticality"],
+                )
 
 
 def create_a_sample(
