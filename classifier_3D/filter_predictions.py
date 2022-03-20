@@ -10,8 +10,15 @@ def filter_predictions_cli(argvs=sys.argv[1:]):
 
     from classifier_3D.utils.path import get_data_path, get_submission_path
 
-    parser = argparse.ArgumentParser("Pipeline to filter the predictions of the 3D points.")
-    parser.add_argument("-f", "--file", required=True, help="File on which to compute the features, (required).")
+    parser = argparse.ArgumentParser(
+        "Pipeline to filter the predictions of the 3D points."
+    )
+    parser.add_argument(
+        "-f",
+        "--file",
+        required=True,
+        help="File on which to compute the features, (required).",
+    )
     parser.add_argument(
         "-r",
         "--radius",
@@ -86,12 +93,17 @@ def filter(args):
 
     print(f"Compute the neighbors of {len(points_no_ground)} points.")
     idx_neighbors_queries = compute_index_neighbors(
-        points_no_ground, points_no_ground, args["radius_or_k_neighbors"], args["use_radius"]
+        points_no_ground,
+        points_no_ground,
+        args["radius_or_k_neighbors"],
+        args["use_radius"],
     )
 
     new_labels = []
     for idx_neighbors in tqdm(idx_neighbors_queries):
-        new_labels.append(np.floor(np.median(label_no_ground[idx_neighbors])).astype(int))
+        new_labels.append(
+            np.floor(np.median(label_no_ground[idx_neighbors])).astype(int)
+        )
 
     predictions = labels.copy()
     predictions[index_no_ground] = new_labels
@@ -100,7 +112,9 @@ def filter(args):
     save_prediction(args["path_submission"], predictions)
 
     if args["save_classification"]:
-        structured_cloud = np.vstack([cloud[header] for header in headers if header != "prediction"]).T
+        structured_cloud = np.vstack(
+            [cloud[header] for header in headers if header != "prediction"]
+        ).T
         headers.remove("prediction")
 
         write_ply(
@@ -117,7 +131,9 @@ def filter(args):
         print(f"The old confusion matrix for {args['file_path']} is:")
         print(
             pd.DataFrame(
-                data=old_confusion_matrix, columns=list(LABEL_NAMES.values())[1:], index=list(LABEL_NAMES.values())[1:]
+                data=old_confusion_matrix,
+                columns=list(LABEL_NAMES.values())[1:],
+                index=list(LABEL_NAMES.values())[1:],
             )
         )
 
@@ -135,7 +151,9 @@ def filter(args):
         print(f"The new confusion matrix for {args['file_path']} is:")
         print(
             pd.DataFrame(
-                data=new_confusion_matrix, columns=list(LABEL_NAMES.values())[1:], index=list(LABEL_NAMES.values())[1:]
+                data=new_confusion_matrix,
+                columns=list(LABEL_NAMES.values())[1:],
+                index=list(LABEL_NAMES.values())[1:],
             )
         )
 
