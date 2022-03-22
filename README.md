@@ -7,7 +7,7 @@ Challenge to classify 3D point clouds of cities into Ground - Building - Poles -
 |*IoU* | 53.8    | 85.5 | 5.5         | 97.7   | 77.1     | 38.1       | 19.0 |
 
 
-The approach considered here is coming from the [RangeNet++](#RangeNet++) paper. This time the algorithm is applied on outdoor point cloud instead of LiDAR scans. I advise the reader to have a look to the [report](./report.pdf), that I have made, that explains how this transfer is done. You can see here the overall pipeline:
+The approach considered here is coming from the [RangeNet++](#rangenet) paper. This time the algorithm is applied on outdoor point cloud instead of LiDAR scans. I advise the reader to have a look to the [report](./report.pdf), that I have made, that explains how this transfer is done. You can see here the overall pipeline:
 
 <table style="width:100%; table-layout:fixed;">
 	<tr>
